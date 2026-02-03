@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Biografía Interactiva de Pierre-Simon Laplace</title>
+  
+  <!-- MathJax para renderizar fórmulas matemáticas -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['\( ', ' \)'], ['\\(', '\\)']],
+        displayMath: [['\[ ', ' \]'], ['\\[', '\\]']],
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #e6f0ff, #c3d9ff);
+      color: #1a1a1a;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.7;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 10pxpx;
+      background: #1a3c6d;
+      color: white;
+      padding: 30px 20px;
+      border-radius: 0 0 30px 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    header img {
+      max-width: 220px;
+      border-radius: 50%;
+      border: 6px solid white;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    h1 {
+      margin: 15px 0;
+      font-size: 2.5rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 30px;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+    .card {
+      background: linear-gradient(135deg, #ffffff, #f8faff);
+      border-radius: 20px;
+      padding: 35px 25px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      cursor: pointer;
+      transition: all 0.4s ease;
+      border: 1px solid #e0e0ff;
+    }
+    .card:hover {
+      transform: translateY(-12px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(26,60,109,0.25);
+      border-color: #1a3c6d;
+    }
+    .card .emoji {
+      font-size: 5rem;
+      margin-bottom: 20px;
+      display: block;
+      transition: transform 0.3s;
+    }
+    .card:hover .emoji {
+      transform: scale(1.15);
+    }
+    .card h2 {
+      margin: 12px 0 8px;
+      color: #1a3c6d;
+      font-size: 1.5rem;
+    }
+    .card p {
+      color: #555;
+      font-size: 1rem;
+    }
+
+    /* Modal mejorado */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.65);
+      overflow: auto;
+    }
+    .modal-content {
+      background: white;
+      margin: 6% auto;
+      padding: 40px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 800px;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.4);
+      position: relative;
+      border: 1px solid #ddd;
+    }
+    .close {
+      position: absolute;
+      top: 20px; right: 30px;
+      font-size: 3rem;
+      font-weight: bold;
+      color: #888;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .close:hover { color: #1a3c6d; }
+    .modal h2 {
+      color: #1a3c6d;
+      margin: 0 0 25px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid #1a3c6d;
+      font-size: 2rem;
+    }
+    .modal h3 {
+      color: #2c5aa9;
+      margin: 30px 0 12px;
+      font-size: 1.4rem;
+      border-left: 5px solid #1a3c6d;
+      padding-left: 12px;
+    }
+    .modal p, .modal ul {
+      font-size: 1.15rem;
+      color: #333;
+    }
+    .modal ul {
+      padding-left: 30px;
+      list-style-type: disc;
+    }
+    .modal li {
+      margin-bottom: 12px;
+    }
+    .modal .formula {
+      background: #f8faff;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #d0e0ff;
+      margin: 20px 0;
+      text-align: center;
+      font-size: 1.3rem;
+    }
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      color: #555;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="imagem.jpg">
+    <h1>Pierre-Simon Laplace<br>(1749–1827)</h1>
+    <p>El "Newton francés" – Toca cada módulo para descubrir su vida y legado</p>
+  </header>
+
+  <div class="grid">
+    <div class="card" onclick="openModal('infancia')">
+      <span class="emoji">👶</span>
+      <h2>Infancia y Formación</h2>
+      <p>1749–1768</p>
+    </div>
+
+    <div class="card" onclick="openModal('inicio')">
+      <span class="emoji">🏛️</span>
+      <h2>Inicios en París</h2>
+      <p>1768–1775</p>
+    </div>
+
+    <div class="card" onclick="openModal('madurez')">
+      <span class="emoji">🧠</span>
+      <h2>Madurez Científica</h2>
+      <p>1776–1795</p>
+    </div>
+
+    <div class="card" onclick="openModal('obras')">
+      <span class="emoji">📚</span>
+      <h2>Obras Maestras y Napoleón</h2>
+      <p>1795–1815</p>
+    </div>
+
+    <div class="card" onclick="openModal('ultimos')">
+      <span class="emoji">👑</span>
+      <h2>Últimos Años</h2>
+      <p>1815–1827</p>
+    </div>
+
+    <div class="card" onclick="openModal('formulas')">
+      <span class="emoji">🧮</span>
+      <h2>Fórmulas Clave</h2>
+      <p>Matemáticas de Laplace</p>
+    </div>
+
+    <div class="card" onclick="openModal('legado')">
+      <span class="emoji">🌟</span>
+      <h2>Legado Eterno</h2>
+      <p>Impacto en la ciencia</p>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2 id="modalTitle"></h2>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+
+
+  <script>
+    const contenido = {
+      infancia: {
+        titulo: "Infancia y Formación (1749–1768)",
+        texto: `
+          <h3>Orígenes humildes en Normandía</h3>
+          <p>Nace el <strong>23 de marzo de 1749</strong> en Beaumont-en-Auge, Normandía (Francia). Hijo de un campesino o pequeño comerciante acomodado y una madre de familia rural.</p>
+          <p>Recibe educación primaria y secundaria en una escuela benedictina local, donde destaca precozmente en matemáticas y ciencias.</p>
+          <p>Entre 1766 y 1768 estudia en la Universidad de Caen, aunque no completa una carrera formal. Su talento es evidente desde joven.</p>
+          <h3>Salto a París</h3>
+          <p>En 1768 (19 años) llega a París con pocos recursos pero con una carta de recomendación que le abre puertas en el mundo intelectual.</p>
+        `
+      },
+      inicio: {
+        titulo: "Inicios en París y Ascenso Meteórico (1768–1775)",
+        texto: `
+          <h3>Encuentro clave con d'Alembert</h3>
+          <p>Contacta con <strong>Jean le Rond d'Alembert</strong>, quien reconoce inmediatamente su genio y lo protege intelectualmente.</p>
+          <p>Publica sus primeros trabajos importantes: series infinitas, diferencias finitas y fundamentos de probabilidad.</p>
+          <h3>Primeros cargos y productividad</h3>
+          <p>En 1771 es nombrado profesor de matemáticas en la prestigiosa <strong>École Militaire</strong> de París (donde también enseñaría Legendre).</p>
+          <p>Desarrolla trabajos pioneros en teoría de probabilidades, ecuaciones diferenciales y mecánica celeste, sentando bases para su fama futura.</p>
+        `
+      },
+      madurez: {
+        titulo: "Madurez Científica y Consagración (1776–1795)",
+        texto: `
+          <h3>Ingreso a la Academia</h3>
+          <p>1776: Ingresa como miembro adjunto a la <strong>Academia de Ciencias de París</strong> a los 27 años, un logro extraordinario.</p>
+          <h3>Descubrimientos fundamentales</h3>
+          <ul>
+            <li>Invariabilidad de las órbitas planetarias medias (1773).</li>
+            <li>Función potencial gravitatorio y <strong>ecuación de Laplace</strong> (base de la electrostática y gravitación).</li>
+            <li>Explicación de irregularidades en la Luna, Júpiter y Saturno.</li>
+            <li>Teoría de la velocidad del sonido en gases y colaboración con Lavoisier en calorimetría.</li>
+          </ul>
+          <h3>Supervivencia en la Revolución</h3>
+          <p>Durante la Revolución Francesa (1789–1799) adopta una actitud prudente y sobrevive políticamente, a diferencia de muchos contemporáneos como Lavoisier.</p>
+        `
+      },
+      obras: {
+        titulo: "Obras Maestras y Período Napoleónico (1795–1815)",
+        texto: `
+          <h3>Divulgación y obra magna</h3>
+          <p>1796: Publica <em>Exposition du système du monde</em>, donde expone la <strong>hipótesis nebular</strong> sobre la formación del Sistema Solar (gran éxito popular).</p>
+          <p>1799–1825: <em>Traité de Mécanique Céleste</em> en 5 volúmenes, considerada la culminación de la mecánica newtoniana aplicada a los cielos.</p>
+          <h3>Relación con Napoleón</h3>
+          <p>1799: Breve cargo como Ministro del Interior (solo 6 semanas; Napoleón lo releva diciendo que era “un excelente matemático pero un pésimo administrador”).</p>
+          <p>1806: Nombrado Conde del Imperio por Napoleón.</p>
+          <p>1812: <em>Théorie analytique des probabilités</em>, obra fundacional en estadística bayesiana moderna.</p>
+        `
+      },
+      ultimos: {
+        titulo: "Últimos Años y Restauración (1815–1827)",
+        texto: `
+          <h3>Transición política</h3>
+          <p>Tras la caída de Napoleón y la Restauración borbónica, pierde honores imperiales pero conserva inmenso prestigio científico.</p>
+          <p>1817: Luis XVIII lo nombra <strong>Marqués de Laplace</strong>.</p>
+          <h3>Trabajo continuo</h3>
+          <p>Continúa publicando suplementos a sus obras principales sobre probabilidad, astronomía y matemáticas hasta avanzada edad.</p>
+          <p>Es considerado el científico vivo más importante de Francia tras la muerte de Lagrange (1813).</p>
+        `
+      },
+      formulas: {
+        titulo: "Fórmulas Matemáticas Clave de Laplace",
+        texto: `
+          <h3>Algunas de sus contribuciones matemáticas más famosas</h3>
+          <div class="formula">
+            <strong>Ecuación de Laplace</strong> (potencial gravitatorio, electrostático y armónico):<br>
+            \[ \\nabla^2 \\phi = 0 \]
+          </div>
+          <div class="formula">
+            <strong>Transformada de Laplace</strong> (análisis de sistemas lineales, ingeniería y física):<br>
+            \[ \\mathcal{L}\\{f(t)\\}(s) = \\int_{0}^{\\infty} e^{-st} f(t) \\, dt \]
+          </div>
+          <div class="formula">
+            <strong>Regla de sucesión de Laplace</strong> (inferencia bayesiana clásica):<br>
+            Si se observan \( s \) éxitos en \( n \) pruebas, la probabilidad del siguiente éxito es aproximadamente \( \\frac{s+1}{n+2} \).
+          </div>
+          <p>Otras: Teorema del valor medio para funciones armónicas, operador laplaciano \( \\Delta = \\nabla^2 \), y fundamentos del límite central en probabilidad.</p>
+          <p>Estas ecuaciones revolucionaron la física, la ingeniería y la estadística modernas.</p>
+        `
+      },
+      legado: {
+        titulo: "Muerte y Legado Eterno",
+        texto: `
+          <h3>Fallecimiento</h3>
+          <p><strong>5 de marzo de 1827</strong>: Muere en París a los 77 años, dos días antes de cumplir 78.</p>
+          <h3>Impacto duradero</h3>
+          <ul>
+            <li><strong>Matemáticas</strong>: Transformada de Laplace, ecuación de Laplace, operador laplaciano.</li>
+            <li><strong>Probabilidad y estadística</strong>: Fundamentos bayesianos modernos, regla de sucesión, demostración del límite central.</li>
+            <li><strong>Astronomía</strong>: Hipótesis nebular, explicación de la estabilidad del Sistema Solar a largo plazo.</li>
+            <li><strong>Física</strong>: Potencial gravitatorio, propagación del sonido, ecuaciones diferenciales en electromagnetismo.</li>
+          </ul>
+          <p>Conocido universalmente como el "Newton francés", su trabajo une la mecánica celeste de Newton con avances del siglo XIX y XX.</p>
+        `
+      }
+    };
+
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+
+    function openModal(seccion) {
+      const data = contenido[seccion];
+      modalTitle.innerHTML = data.titulo;
+      modalBody.innerHTML = data.texto;
+      modal.style.display = 'block';
+      // Re-render MathJax después de cargar contenido dinámico
+      if (typeof MathJax !== 'undefined') {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function closeModal() {
+      modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+      if (event.target === modal) {
+        closeModal();
+      }
+    };
+  </script>
+
+</body>
+</html>
